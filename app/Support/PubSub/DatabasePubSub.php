@@ -2,6 +2,7 @@
 
 namespace App\Support\PubSub;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class DatabasePubSub implements PubSubContract
@@ -17,9 +18,8 @@ final class DatabasePubSub implements PubSubContract
         }
     }
 
-    public function consume(string $queue, array $routingKey)
+    public function consume(string $queue, array $routingKey, object $action)
     {
-        do {
-        } while (true);
+        throw new Exception('do not implemented');
     }
 }

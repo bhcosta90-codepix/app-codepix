@@ -11,7 +11,7 @@ final class RabbitMQPubSub implements PubSubContract
         throw new Exception('do not implemented');
     }
 
-    public function consume(string $queue, array $routingKey)
+    public function consume(string $queue, array $routingKey, object $action)
     {
         throw new Exception('do not implemented');
     }
