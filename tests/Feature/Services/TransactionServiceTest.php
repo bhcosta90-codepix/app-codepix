@@ -17,7 +17,7 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         $this->assertDatabaseHas('transactions', [
             'amount' => 50,
@@ -34,8 +34,8 @@ class TransactionServiceTest extends TestCase
         $objAccount1 = Account::factory()->create();
         $objPix2 = PixKey::factory()->create();
 
-        $this->service()->newTransaction($objAccount, $objPix2, 50, 'teste');
-        $this->service()->newTransaction($objAccount1, $objPix, 30, 'teste');
+        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix2, 50, 'teste');
+        $this->service()->newTransaction($this->uuid(), $objAccount1, $objPix, 30, 'teste');
 
         $this->assertDatabaseHas('transactions', [
             'amount' => 50,
@@ -52,6 +52,22 @@ class TransactionServiceTest extends TestCase
         ]);
     }
 
+    public function test_send_queue()
+    {
+        $objAccount = Account::factory()->create();
+        $objPix = PixKey::factory()->create();
+
+        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+
+        $this->assertDatabaseHas('pubsub', [
+            'routing_key' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
+        ]);
+
+        $this->assertDatabaseHas('pubsub', [
+            'routing_key' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
+        ]);
+    }
+
     public function test_new_transaction_same_account()
     {
         $this->expectException(ValidationException::class);
@@ -62,11 +78,16 @@ class TransactionServiceTest extends TestCase
             'account_id' => $objAccount->id
         ])->create();
 
-        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
     }
 
     private function service(): TransactionService
     {
         return app(TransactionService::class);
+    }
+
+    private function uuid()
+    {
+        return (string) str()->uuid();
     }
 }

@@ -19,6 +19,7 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => (string) str()->uuid(),
             'account_from_id' => Account::factory(),
             'pix_key_id' => PixKey::factory(),
             'amount' => rand(50, 100),

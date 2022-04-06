@@ -15,9 +15,10 @@ final class TransactionService
         //
     }
 
-    public function newTransaction(Account $account, PixKey $pixKey, float $amount, string $description = null)
+    public function newTransaction(string $uuid, Account $account, PixKey $pixKey, float $amount, string $description = null)
     {
         $data = $this->validate([
+            'uuid' => $uuid,
             'amount' => $amount,
             'description' => $description,
             'account_from_id' => $account->id,
@@ -25,6 +26,13 @@ final class TransactionService
             'description' => $description,
         ], Transaction::rulesCreated());
 
-        return $this->repository->create($data);
+        $ret = $this->repository->create($data);
+
+        $data = [
+            'uuid' => $ret->uuid
+        ];
+
+        app('pubsub')->publish(['new_transaction.' . $account->bank->uuid . '.confirmed'], $data);
+        app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->uuid . '.confirmed'], $data);
     }
 }

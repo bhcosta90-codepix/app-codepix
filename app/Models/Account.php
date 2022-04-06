@@ -15,6 +15,11 @@ class Account extends Model
         'number',
     ];
 
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
+
     public static function rulesCreated(): ?array
     {
         return self::rulesUpdated();
