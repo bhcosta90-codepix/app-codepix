@@ -62,14 +62,10 @@ class TransactionServiceTest extends TestCase
 
         $this->assertDatabaseHas('pubsub', [
             'routing' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
-            'data' => json_encode($transaction),
         ]);
 
         $this->assertDatabaseHas('pubsub', [
             'routing' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
-            'data' => json_encode($transaction + [
-                'moviment' => 'credit',
-            ]),
         ]);
     }
 
