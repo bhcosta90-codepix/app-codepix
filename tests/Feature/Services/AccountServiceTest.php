@@ -11,11 +11,6 @@ class AccountServiceTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_new_account()
     {
         $objBank = Bank::factory()->create();
