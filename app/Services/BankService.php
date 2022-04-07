@@ -13,11 +13,12 @@ final class BankService
         //
     }
 
-    public function newBank(string $code, string $name)
+    public function newBank(string $code, string $name, string $secret)
     {
         $data = $this->validate([
             'code' => $code,
             'name' => $name,
+            'secret' => $secret,
         ], Bank::rulesCreated());
 
         return $this->repository->create($data);

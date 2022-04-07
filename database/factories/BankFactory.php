@@ -19,6 +19,7 @@ class BankFactory extends Factory
         return [
             'code' => rand(100, 999),
             'name' => "bank - " . $this->faker->name(),
+            'secret' => (string) str()->uuid(),
         ];
     }
 }

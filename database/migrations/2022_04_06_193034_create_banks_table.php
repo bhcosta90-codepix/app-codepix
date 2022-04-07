@@ -18,6 +18,8 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('code');
             $table->string('name');
+            $table->string('credential');
+            $table->string('secret');
             $table->timestamps();
         });
     }

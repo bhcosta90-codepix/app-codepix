@@ -12,11 +12,12 @@ class BankServiceTest extends TestCase
 
     public function test_new_bank()
     {
-        $this->service()->newBank('033', 'Teste bancário');
+        $this->service()->newBank('033', 'Teste bancário', (string) $secret = str()->uuid());
 
         $this->assertDatabaseHas('banks', [
             'name' => 'Teste bancário',
             'code' => '033',
+            'secret' => sha1($secret),
         ]);
     }
 
