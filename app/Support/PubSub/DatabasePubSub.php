@@ -12,7 +12,7 @@ final class DatabasePubSub implements PubSubContract
         foreach ($routingKey as $route) {
             DB::table('pubsub')->insert([
                 'queue' => config('app.name'),
-                'routing_key' => $route,
+                'routing' => $route,
                 'data' => json_encode($data),
             ]);
         }
@@ -20,6 +20,25 @@ final class DatabasePubSub implements PubSubContract
 
     public function consume(string $queue, array $routingKey, object $action)
     {
-        throw new Exception('do not implemented');
+        foreach ($routingKey as $route) {
+            $result = DB::table('pubsub')->select()
+                ->where('queue', $queue)
+                ->where('routing', $route)
+                ->where('status', 'pending')
+                ->get();
+
+            foreach ($result as $rs) {
+                $data = json_decode($rs->data, true);
+                try {
+                    $action($data);
+                    DB::table('pubsub')->select()->where('id', $rs->id)->delete();
+                } catch(Exception $e) {
+                    DB::table('pubsub')->select()->where('id', $rs->id)->update([
+                        'status' => 'reject',
+                    ]);
+                    throw $e;
+                }
+            }
+        }
     }
 }

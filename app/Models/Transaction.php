@@ -43,6 +43,11 @@ class Transaction extends Model
         }
     }
 
+    public function account_from()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
     public function pixKey()
     {
         return $this->belongsTo(PixKey::class);

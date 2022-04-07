@@ -5,6 +5,7 @@ namespace Tests\Feature\Services;
 use App\Models\{Account, PixKey};
 use App\Services\TransactionService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -60,11 +61,11 @@ class TransactionServiceTest extends TestCase
         $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         $this->assertDatabaseHas('pubsub', [
-            'routing_key' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
+            'routing' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
         ]);
 
         $this->assertDatabaseHas('pubsub', [
-            'routing_key' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
+            'routing' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
         ]);
     }
 
@@ -79,6 +80,48 @@ class TransactionServiceTest extends TestCase
         ])->create();
 
         $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+    }
+
+    public function test_confirmed_transaction_in_bank() {
+        $objAccount = Account::factory()->create();
+        $objPix = PixKey::factory()->create();
+
+        $obj = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+
+        DB::table('pubsub')->insert([
+            'queue' => 'teste',
+            'routing' => 'teste',
+            'data' => json_encode(['uuid' => $obj->uuid])
+        ]);
+
+        app('pubsub')->consume('teste', ['teste'], function($data){
+            $this->service()->transactionConfirmed($data['uuid']);
+        });
+
+        $this->assertDatabaseHas('pubsub', [
+            'routing' => 'confirm_transaction.' . $objAccount->bank->uuid . '.confirmed',
+        ]);
+    }
+
+    public function test_approved_transaction_in_bank() {
+        $objAccount = Account::factory()->create();
+        $objPix = PixKey::factory()->create();
+
+        $obj = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+
+        DB::table('pubsub')->insert([
+            'queue' => 'teste',
+            'routing' => 'teste',
+            'data' => json_encode(['uuid' => $obj->uuid])
+        ]);
+
+        app('pubsub')->consume('teste', ['teste'], function($data){
+            $this->service()->transactionApprroved($data['uuid']);
+        });
+
+        $this->assertDatabaseHas('pubsub', [
+            'routing' => 'approved_transaction.' . $objAccount->bank->uuid . '.confirmed',
+        ]);
     }
 
     private function service(): TransactionService

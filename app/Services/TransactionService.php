@@ -9,6 +9,8 @@ final class TransactionService
     use Traits\ValidateTrait;
 
     const TRANSACTION_PENDING = 'pending';
+    const TRANSACTION_CONFIRMED = 'confirmed';
+    const TRANSACTION_APPROVED = 'approved';
 
     public function __construct(private Transaction $repository)
     {
@@ -34,5 +36,35 @@ final class TransactionService
 
         app('pubsub')->publish(['new_transaction.' . $account->bank->uuid . '.confirmed'], $data);
         app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->uuid . '.confirmed'], $data);
+
+        return $ret;
+    }
+
+    public function transactionConfirmed(string $uuid){
+        $obj = $this->find($uuid);
+        $obj->status = self::TRANSACTION_CONFIRMED;
+        $obj->save();
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        app('pubsub')->publish(['confirm_transaction.' . $obj->account_from->bank->uuid . '.confirmed'], $data);
+    }
+
+    public function transactionApprroved(string $uuid){
+        $obj = $this->find($uuid);
+        $obj->status = self::TRANSACTION_APPROVED;
+        $obj->save();
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        app('pubsub')->publish(['approved_transaction.' . $obj->account_from->bank->uuid . '.confirmed'], $data);
+    }
+
+    public function find(string $uuid) {
+        return $this->repository->where('uuid', $uuid)->first();
     }
 }

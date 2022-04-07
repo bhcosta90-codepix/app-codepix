@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('pubsub', function (Blueprint $table) {
             $table->id();
             $table->string('queue');
-            $table->string('routing_key');
+            $table->string('routing');
             $table->json('data');
+            $table->string('status')->default('pending');
         });
     }
 
