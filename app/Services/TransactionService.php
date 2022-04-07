@@ -29,15 +29,21 @@ final class TransactionService
         ], Transaction::rulesCreated());
 
         $ret = $this->repository->create($data);
+        $ret->refresh();
 
-        $data = [
-            'uuid' => $ret->uuid
+        $data = $ret->toArray();
+
+        $data['pix_key'] += [
+            'account' => $ret->account_from->toArray(),
         ];
 
         app('pubsub')->publish(['new_transaction.' . $account->bank->uuid . '.confirmed'], $data);
-        app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->uuid . '.confirmed'], $data);
 
-        return $ret;
+        app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->uuid . '.confirmed'], $data + [
+            'moviment' => 'credit'
+        ]);
+
+        return $data;
     }
 
     public function transactionConfirmed(string $uuid){

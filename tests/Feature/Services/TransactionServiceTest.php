@@ -58,14 +58,18 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         $this->assertDatabaseHas('pubsub', [
             'routing' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
+            'data' => json_encode($transaction),
         ]);
 
         $this->assertDatabaseHas('pubsub', [
             'routing' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
+            'data' => json_encode($transaction + [
+                'moviment' => 'credit',
+            ]),
         ]);
     }
 
@@ -86,12 +90,12 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $obj = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         DB::table('pubsub')->insert([
             'queue' => 'teste',
             'routing' => 'teste',
-            'data' => json_encode(['uuid' => $obj->uuid])
+            'data' => json_encode(['uuid' => $transaction['uuid']])
         ]);
 
         app('pubsub')->consume('teste', ['teste'], function($data){
@@ -107,12 +111,12 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $obj = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         DB::table('pubsub')->insert([
             'queue' => 'teste',
             'routing' => 'teste',
-            'data' => json_encode(['uuid' => $obj->uuid])
+            'data' => json_encode(['uuid' => $transaction['uuid']])
         ]);
 
         app('pubsub')->consume('teste', ['teste'], function($data){

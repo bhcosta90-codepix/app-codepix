@@ -35,8 +35,9 @@ class Transaction extends Model
         ];
     }
 
-    public function validateCreated(){
-        if($this->pixKey->account_id == $this->account_from_id) {
+    public function validateCreated()
+    {
+        if ($this->pixKey->account_id == $this->account_from_id) {
             throw ValidationException::withMessages([
                 'pix_key_id' => "Você não pode transferir para a mesma conta bancária",
             ]);
