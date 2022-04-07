@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\{
+    AccountController,
+    BankController,
+    PixKeyController
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/bank', [BankController::class, 'store']);
+
+Route::group(['middleware' => 'auth.basic'], function(){
+    Route::post('/account', [AccountController::class, 'store']);
+    Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
 });

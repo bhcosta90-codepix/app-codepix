@@ -23,4 +23,9 @@ final class AccountService
 
         return $this->repository->create($data);
     }
+
+    public function find(string $uuid)
+    {
+        return $this->repository->where('uuid', $uuid)->first();
+    }
 }
