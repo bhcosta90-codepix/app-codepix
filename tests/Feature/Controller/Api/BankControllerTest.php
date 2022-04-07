@@ -17,6 +17,7 @@ class BankControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('banks', [
+            'uuid' => $response->json('data.id'),
             'credential' => $response->json('data.credential'),
             'secret' => sha1($response->json('data.secret')),
         ]);
