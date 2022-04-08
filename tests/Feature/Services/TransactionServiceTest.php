@@ -60,9 +60,9 @@ class TransactionServiceTest extends TestCase
 
         $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
-        $this->assertDatabaseHas('pubsub', [
-            'routing' => 'new_transaction.' . $objAccount->bank->credential . '.confirmed',
-        ]);
+        // $this->assertDatabaseHas('pubsub', [
+        //     'routing' => 'new_transaction.' . $objAccount->bank->credential . '.confirmed',
+        // ]);
 
         $this->assertDatabaseHas('pubsub', [
             'routing' => 'new_transaction.' . $objPix->account->bank->credential . '.confirmed',

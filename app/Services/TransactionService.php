@@ -37,8 +37,6 @@ final class TransactionService
             'account' => $ret->account_from->toArray(),
         ];
 
-        app('pubsub')->publish(['new_transaction.' . $account->bank->credential . '.confirmed'], $data);
-
         app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->credential . '.confirmed'], $data + [
             'moviment' => 'credit'
         ]);

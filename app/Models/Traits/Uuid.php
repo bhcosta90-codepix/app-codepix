@@ -7,7 +7,7 @@ trait Uuid
     public static function bootUuid()
     {
         static::creating(function ($obj) {
-            $obj->uuid = str()->uuid();
+            $obj->uuid = $obj->uuid ?: str()->uuid();
         });
     }
 }
