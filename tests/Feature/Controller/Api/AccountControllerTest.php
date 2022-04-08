@@ -17,7 +17,7 @@ class AccountControllerTest extends TestCase
             'name' => 'teste de conta',
             'number' => '123456789',
         ], [
-            'Authorization' => "{$bank->credential}:{$bank->secret}",
+            'Authorization' => "Bearer {$bank->credential}:4484cd7b070bd7a6fbeb1306adef31c004a98aff",
         ]);
 
         $this->assertDatabaseHas('accounts', [

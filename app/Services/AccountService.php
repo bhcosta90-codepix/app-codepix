@@ -13,7 +13,7 @@ final class AccountService
         //
     }
 
-    public function newAccount(Bank $bank, string $name, string $number)
+    public function newAccount(Bank $bank, string $name = null, string $number = null)
     {
         $data = $this->validate([
             'name' => $name,

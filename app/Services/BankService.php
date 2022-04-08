@@ -13,7 +13,7 @@ final class BankService
         //
     }
 
-    public function newBank(string $code, string $name, string $secret)
+    public function newBank(string $code = null, string $name = null, string $secret = null)
     {
         $data = $this->validate([
             'code' => $code,

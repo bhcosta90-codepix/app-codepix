@@ -23,7 +23,7 @@ class PixKeyControllerTest extends TestCase
             'kind' => 'random',
             'key' => $key = (string) str()->uuid(),
         ], [
-            'Authorization' => "{$bank->credential}:{$bank->secret}",
+            'Authorization' => "Bearer {$bank->credential}:4484cd7b070bd7a6fbeb1306adef31c004a98aff",
         ]);
 
         $this->assertDatabaseHas('pix_keys', [

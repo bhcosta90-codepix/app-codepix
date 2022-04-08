@@ -24,11 +24,13 @@ class AuthenticateWithBasicAuth
             abort(403, __('You are not authorized to this action'));
         }
 
+        list(,$credential) = explode(' ', $credential);
+
         list($credential, $secret) = explode(':', $credential);
 
         $objBank = Bank::where('credential', $credential)->first();
 
-        if($objBank->secret != $secret) {
+        if($objBank->secret != sha1($secret)) {
             abort(403, __('You are not authorized to this action'));
         }
 

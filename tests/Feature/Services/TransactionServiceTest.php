@@ -58,14 +58,14 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
 
         $this->assertDatabaseHas('pubsub', [
-            'routing' => 'new_transaction.' . $objAccount->bank->uuid . '.confirmed',
+            'routing' => 'new_transaction.' . $objAccount->bank->credential . '.confirmed',
         ]);
 
         $this->assertDatabaseHas('pubsub', [
-            'routing' => 'new_transaction.' . $objPix->account->bank->uuid . '.confirmed',
+            'routing' => 'new_transaction.' . $objPix->account->bank->credential . '.confirmed',
         ]);
     }
 
@@ -99,7 +99,7 @@ class TransactionServiceTest extends TestCase
         });
 
         $this->assertDatabaseHas('pubsub', [
-            'routing' => 'confirm_transaction.' . $objAccount->bank->uuid . '.confirmed',
+            'routing' => 'confirm_transaction.' . $objAccount->bank->credential . '.confirmed',
         ]);
     }
 
@@ -120,7 +120,7 @@ class TransactionServiceTest extends TestCase
         });
 
         $this->assertDatabaseHas('pubsub', [
-            'routing' => 'approved_transaction.' . $objAccount->bank->uuid . '.confirmed',
+            'routing' => 'approved_transaction.' . $objAccount->bank->credential . '.confirmed',
         ]);
     }
 
