@@ -26,6 +26,6 @@ final class AccountService
 
     public function find(string $uuid)
     {
-        return $this->repository->where('uuid', $uuid)->first();
+        return $this->repository->where('uuid', $uuid)->firstOrFail();
     }
 }

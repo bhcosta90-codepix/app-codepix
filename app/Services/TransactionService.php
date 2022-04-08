@@ -44,7 +44,8 @@ final class TransactionService
         return $ret;
     }
 
-    public function transactionConfirmed(string $uuid){
+    public function transactionConfirmed(string $uuid)
+    {
         $obj = $this->find($uuid);
         $obj->status = self::TRANSACTION_CONFIRMED;
         $obj->save();
@@ -56,7 +57,8 @@ final class TransactionService
         app('pubsub')->publish(['confirm_transaction.' . $obj->account_from->bank->credential . '.confirmed'], $data);
     }
 
-    public function transactionApprroved(string $uuid){
+    public function transactionApprroved(string $uuid)
+    {
         $obj = $this->find($uuid);
         $obj->status = self::TRANSACTION_APPROVED;
         $obj->save();
@@ -68,7 +70,8 @@ final class TransactionService
         app('pubsub')->publish(['approved_transaction.' . $obj->account_from->bank->credential . '.confirmed'], $data);
     }
 
-    public function find(string $uuid) {
-        return $this->repository->where('uuid', $uuid)->first();
+    public function find(string $uuid)
+    {
+        return $this->repository->where('uuid', $uuid)->firstOrFail();
     }
 }

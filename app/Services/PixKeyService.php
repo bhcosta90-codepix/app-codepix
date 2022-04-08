@@ -28,6 +28,6 @@ final class PixKeyService
 
     public function get($id)
     {
-        return $this->repository->where('id', $id)->first();
+        return $this->repository->where('id', $id)->firstOrFail();
     }
 }

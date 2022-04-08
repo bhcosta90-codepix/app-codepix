@@ -12,8 +12,8 @@ class Bank extends Authenticatable
     public static function booted(): void
     {
         static::creating(function ($obj) {
-            $obj->credential = sha1(str()->uuid());
-            $obj->secret = sha1($obj->secret);
+            $obj->credential = $obj->credential ?: sha1(str()->uuid());
+            $obj->secret = $obj->secret ?: sha1($obj->secret);
         });
     }
 
