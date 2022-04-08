@@ -28,4 +28,5 @@ Route::post('/bank', [BankController::class, 'store']);
 Route::group(['middleware' => 'auth.basic'], function(){
     Route::post('/account', [AccountController::class, 'store']);
     Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
+    Route::get('/pixkey/{kind}/{key}', [PixKeyController::class, 'exists']);
 });
