@@ -17,10 +17,9 @@ final class TransactionService
         //
     }
 
-    public function newTransaction(string $uuid, Account $account, PixKey $pixKey, float $amount, string $description = null)
+    public function newTransaction(Account $account = null, PixKey $pixKey = null, float $amount = null, string $description = null)
     {
         $data = $this->validate([
-            'uuid' => $uuid,
             'amount' => $amount,
             'description' => $description,
             'account_from_id' => $account->id,

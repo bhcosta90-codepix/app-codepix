@@ -9,10 +9,9 @@ use Illuminate\Validation\ValidationException;
 
 class Transaction extends Model
 {
-    use HasFactory, Traits\ValidateEntity;
+    use HasFactory, Traits\Uuid, Traits\ValidateEntity;
 
     public $fillable = [
-        'uuid',
         'account_from_id',
         'pix_key_id',
         'amount',
@@ -27,7 +26,6 @@ class Transaction extends Model
     public static function rulesUpdated(): array|null
     {
         return [
-            'uuid' => 'required|uuid',
             'account_from_id' => 'required',
             'pix_key_id' => 'required',
             'amount' => 'required|min:0|numeric',

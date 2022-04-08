@@ -29,7 +29,7 @@ final class PixKeyService
 
     public function validateExistPixKey(string $kind, string $key)
     {
-        return Cache::remember(self::CACHE_PIX_KEY . "{$kind}{$key}", 30, fn() => $this->repository->where('kind', $kind)->where('key', $key)->firstOrFail());
+        return $this->repository->where('kind', $kind)->where('key', $key)->first();
     }
 
     public function get($id)

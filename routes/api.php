@@ -3,7 +3,8 @@
 use App\Http\Controllers\Api\{
     AccountController,
     BankController,
-    PixKeyController
+    PixKeyController,
+    TransactionController
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,5 @@ Route::post('/bank', [BankController::class, 'store']);
 Route::group(['middleware' => 'auth.basic'], function(){
     Route::post('/account', [AccountController::class, 'store']);
     Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
-    Route::get('/pixkey/{kind}/{key}', [PixKeyController::class, 'exists']);
+    Route::post('/transaction/{kind}/{key}', [TransactionController::class, 'store']);
 });
