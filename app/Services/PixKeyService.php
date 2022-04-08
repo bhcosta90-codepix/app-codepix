@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\{Account, PixKey};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 final class PixKeyService
 {
@@ -13,7 +15,7 @@ final class PixKeyService
         //
     }
 
-    public function newPixKey(Account $account, string $kind, string $key)
+    public function newPixKey(Account $account, string $kind = null, string $key = null)
     {
         $data = $this->validate([
             'kind' => $kind,

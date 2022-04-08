@@ -28,7 +28,7 @@ trait ValidateEntity
     public static function bootValidateEntity()
     {
         static::creating(function (Model $obj) {
-            if (count($rules = $obj->rulesCreated())) {
+            if (count($rules = $obj->rulesCreated($obj->toArray()))) {
                 $obj->validaFillableWithRules($rules);
                 $obj->validate($obj->toArray(), $rules);
                 $obj->validateCreated();
@@ -36,7 +36,7 @@ trait ValidateEntity
         });
 
         static::updating(function (Model $obj) {
-            if (count($rules = $obj->rulesUpdated())) {
+            if (count($rules = $obj->rulesUpdated($obj->toArray()))) {
                 $obj->validaFillableWithRules($rules);
                 $obj->validate($obj->toArray(), $rules);
                 $obj->validateUpdated();
