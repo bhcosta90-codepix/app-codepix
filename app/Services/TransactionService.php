@@ -32,11 +32,7 @@ final class TransactionService
 
         $data = $ret->toArray();
 
-        $data['pix_key'] += [
-            'account' => $ret->account_from->toArray() + [
-                'bank' => $ret->account_from->bank
-            ],
-        ];
+        $data['bank_pix_key'] = $ret->pixKey->account->bank->toArray();
 
         app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->credential . '.confirmed'], $data);
 
