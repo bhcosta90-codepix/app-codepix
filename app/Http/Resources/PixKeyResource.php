@@ -16,7 +16,6 @@ class PixKeyResource extends JsonResource
     {
         return [
             'id' => $this->uuid,
-            'kind' => $this->kind,
             'key' => $this->key,
         ];
     }
