@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $bank = Bank::factory([
             'uuid' => 'ab25989f-9486-4863-b657-aa1f8732620f',
             'credential' => 'a1abd599d3a367dbce524ad3af622429da632b19',
-            'secret' => sha1('1e6abfd76091b55b2be5acefb6e7128b510cf096')
+            'secret' => "153e62529a558a0d7cdadecabd0c4e799f32ad78",
         ])->create();
 
         $account = Account::factory([
