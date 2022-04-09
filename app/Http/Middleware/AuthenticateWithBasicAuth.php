@@ -21,7 +21,7 @@ class AuthenticateWithBasicAuth
         $credential = $request->header('Authorization');
 
         if (empty($credential)) {
-            abort(403, __('You are not authorized to this action'));
+            abort(401, __('You are not authorized to this action'));
         }
 
         list(,$credential) = explode(' ', $credential);
@@ -31,7 +31,7 @@ class AuthenticateWithBasicAuth
         $objBank = Bank::where('credential', $credential)->first();
 
         if($objBank->secret != sha1($secret)) {
-            abort(403, __('You are not authorized to this action'));
+            abort(401, __('You are not authorized to this action'));
         }
 
         Auth::login($objBank);

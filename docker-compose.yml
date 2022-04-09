@@ -79,6 +79,8 @@ services:
             - RABBITMQ_DEFAULT_PASS=root
         networks:
             - sail
+        extra_hosts:
+            - 'host.docker.internal:172.17.0.1'
 
 networks:
     sail:
