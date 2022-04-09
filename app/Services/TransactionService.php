@@ -67,7 +67,7 @@ final class TransactionService
             'uuid' => $uuid
         ];
 
-        app('pubsub')->publish(['approved_transaction.' . $obj->account_from->bank->credential . '.confirmed'], $data);
+        app('pubsub')->publish(['approved_transaction'], $data);
     }
 
     public function find(string $uuid)

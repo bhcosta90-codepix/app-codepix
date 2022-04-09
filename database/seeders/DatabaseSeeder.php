@@ -46,5 +46,37 @@ class DatabaseSeeder extends Seeder
             'kind' => 'random',
             'key' => 'e0ab5f25-34a6-4c2d-89d7-a0f0ba52c0f0'
         ])->create();
+
+        /** Novo dados bancários */
+        $bank = Bank::factory([
+            'uuid' => '17a21b59-5a83-498b-8256-219693099a38',
+            'credential' => 'ef8e3bfa3d4e2af40c519487f19451f19d09f0a3',
+            'secret' => "3ec00ea2de51076baf306b5e45168fdf9497eb96",
+        ])->create();
+
+
+        $account = Account::factory([
+            'uuid' => '013903b5-a12c-4981-8fe0-60d37758b359',
+            'bank_id' => $bank->id,
+        ])->create();
+
+        PixKey::factory([
+            'account_id' => $account->id,
+            'uuid' => 'db4af86e-35e8-4a07-9072-037b5717aa08',
+            'kind' => 'random',
+            'key' => 'bd07b339-a05f-408f-9640-c461c29cb243'
+        ])->create();
+
+        $account = Account::factory([
+            'uuid' => '50809e5f-22dc-41e7-b95e-25e764bae71a',
+            'bank_id' => $bank->id,
+        ])->create();
+
+        PixKey::factory([
+            'account_id' => $account->id,
+            'uuid' => '33047865-fbb2-4a3e-a14d-4287f7abfd37',
+            'kind' => 'random',
+            'key' => '33047865-fbb2-4a3e-a14d-4287f7abfd37'
+        ])->create();
     }
 }

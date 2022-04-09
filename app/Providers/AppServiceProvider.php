@@ -33,16 +33,6 @@ class AppServiceProvider extends ServiceProvider
         $sql = str_replace(['%', '?'], ['%%', '\'%s\''], $sql);
 
         return vsprintf($sql, $binds);
-
-        /*$result = "";
-        $sql_chunks = explode('?', $sql);
-        foreach ($sql_chunks as $key => $sql_chunk) {
-            if (isset($binds[$key])) {
-                $result .= $sql_chunk . '"' . $binds[$key] . '"';
-            }
-        }
-        $result .= $sql_chunks[count($sql_chunks) - 1];
-        return $result;*/
     }
 
     /**

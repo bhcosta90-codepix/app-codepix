@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "55ee888d-1e3c-4c9a-8568-06b9182a113f",
+		"name": "Codepix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cadastro de banco",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"teste de banco\",\n    \"code\": \"033\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/bank",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"bank"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro de conta",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a1abd599d3a367dbce524ad3af622429da632b19:153e62529a558a0d7cdadecabd0c4e799f32ad78",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"teste de banco\",\n    \"number\": \"16516165\",\n    \"amount\": -50\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro de pix",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a1abd599d3a367dbce524ad3af622429da632b19:153e62529a558a0d7cdadecabd0c4e799f32ad78",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"kind\": \"random\",\n    \"key\": \"1b38efb3-f067-4034-97ec-6dfa584560fe\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/pixkey/a1629637-c5e9-4a83-bd07-454b6c0a1e6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"pixkey",
+						"a1629637-c5e9-4a83-bd07-454b6c0a1e6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro de transação",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a1abd599d3a367dbce524ad3af622429da632b19:153e62529a558a0d7cdadecabd0c4e799f32ad78",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 100,\n    \"account\": \"58234d11-78f1-45c2-ad40-7c255390b818\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/transaction/random/cba4da01-a262-425c-a2d2-457319e8a666",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"transaction",
+						"random",
+						"cba4da01-a262-425c-a2d2-457319e8a666"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
