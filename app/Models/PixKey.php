@@ -32,9 +32,12 @@ class PixKey extends Model
             'account_id' => 'required|exists:accounts,id'
         ];
 
-        if (!empty($data['kind']) && $data['kind'] == 'random') {
-            $ret['key'][] = 'uuid';
-        }
+        match($data['kind'] ?? null) {
+            'random' => $ret['key'][] = 'uuid',
+            'cpf' => $ret['key'][] = 'cpf',
+            'email' => $ret['key'][] = 'email',
+            default => null,
+        };
 
         return $ret;
     }
