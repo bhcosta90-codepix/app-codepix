@@ -5,7 +5,7 @@ namespace App\Console\Commands\Transaction;
 use App\Services\TransactionService;
 use Illuminate\Console\Command;
 
-class TransactionConfirmed extends Command
+class TransactionApproved extends Command
 {
     /**
      * The name and signature of the console command.
