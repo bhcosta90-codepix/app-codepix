@@ -33,13 +33,12 @@ final class TransactionService
         $data = $ret->toArray();
 
         $data['pix_key'] += [
-            'account' => $ret->account_from->toArray(),
+            'account' => $ret->account_from->toArray() + [
+                'bank' => $ret->account_from->bank
+            ],
         ];
 
-        app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->credential . '.confirmed'], [
-            'status' => TransactionService::TRANSACTION_CONFIRMED,
-            'moviment' => 'credit',
-        ] + $data);
+        app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->credential . '.confirmed'], $data);
 
         return $ret;
     }
@@ -50,11 +49,7 @@ final class TransactionService
         $obj->status = self::TRANSACTION_CONFIRMED;
         $obj->save();
 
-        $data = [
-            'uuid' => $uuid
-        ];
-
-        app('pubsub')->publish(['confirm_transaction.' . $obj->account_from->bank->credential . '.confirmed'], $data);
+        return $obj;
     }
 
     public function transactionApprroved(string $uuid)
@@ -63,11 +58,7 @@ final class TransactionService
         $obj->status = self::TRANSACTION_APPROVED;
         $obj->save();
 
-        $data = [
-            'uuid' => $uuid
-        ];
-
-        app('pubsub')->publish(['approved_transaction'], $data);
+        return $obj;
     }
 
     public function find(string $uuid)

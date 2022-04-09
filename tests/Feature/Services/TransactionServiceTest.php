@@ -53,22 +53,6 @@ class TransactionServiceTest extends TestCase
         ]);
     }
 
-    public function test_send_queue()
-    {
-        $objAccount = Account::factory()->create();
-        $objPix = PixKey::factory()->create();
-
-        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
-
-        // $this->assertDatabaseHas('pubsub', [
-        //     'routing' => 'new_transaction.' . $objAccount->bank->credential . '.confirmed',
-        // ]);
-
-        $this->assertDatabaseHas('pubsub', [
-            'routing' => 'new_transaction.' . $objPix->account->bank->credential . '.confirmed',
-        ]);
-    }
-
     public function test_new_transaction_same_account()
     {
         $this->expectException(ValidationException::class);
@@ -80,48 +64,6 @@ class TransactionServiceTest extends TestCase
         ])->create();
 
         $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
-    }
-
-    public function test_confirmed_transaction_in_bank() {
-        $objAccount = Account::factory()->create();
-        $objPix = PixKey::factory()->create();
-
-        $transaction = $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
-
-        DB::table('pubsub')->insert([
-            'queue' => 'teste',
-            'routing' => 'teste',
-            'data' => json_encode(['uuid' => $transaction['uuid']])
-        ]);
-
-        app('pubsub')->consume('teste', ['teste'], function($data){
-            $this->service()->transactionConfirmed($data['uuid']);
-        });
-
-        $this->assertDatabaseHas('pubsub', [
-            'routing' => 'confirm_transaction.' . $objAccount->bank->credential . '.confirmed',
-        ]);
-    }
-
-    public function test_approved_transaction_in_bank() {
-        $objAccount = Account::factory()->create();
-        $objPix = PixKey::factory()->create();
-
-        $transaction = $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
-
-        DB::table('pubsub')->insert([
-            'queue' => 'teste',
-            'routing' => 'teste',
-            'data' => json_encode(['uuid' => $transaction['uuid']])
-        ]);
-
-        app('pubsub')->consume('teste', ['teste'], function($data){
-            $this->service()->transactionApprroved($data['uuid']);
-        });
-
-        $this->assertDatabaseHas('pubsub', [
-            'routing' => 'approved_transaction.' . $objAccount->bank->credential . '.confirmed',
-        ]);
     }
 
     private function service(): TransactionService

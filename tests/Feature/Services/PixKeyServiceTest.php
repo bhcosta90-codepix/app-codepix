@@ -14,11 +14,11 @@ class PixKeyServiceTest extends TestCase
     public function test_new_pixkey()
     {
         $objAccount = Account::factory()->create();
-        $this->service()->newPixKey($objAccount, "cpf", "123456789");
+        $this->service()->newPixKey($objAccount, "random", $k = str()->uuid());
 
         $this->assertDatabaseHas('pix_keys', [
-            'kind' => 'cpf',
-            'key' => '123456789',
+            'kind' => 'random',
+            'key' => $k,
             'account_id' => $objAccount->id,
         ]);
     }
