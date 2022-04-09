@@ -13,7 +13,7 @@ class Bank extends Authenticatable
     {
         static::creating(function ($obj) {
             $obj->credential = $obj->credential ?: sha1(str()->uuid());
-            $obj->secret = $obj->secret ?: sha1($obj->secret);
+            $obj->secret = sha1($obj->secret);
         });
     }
 

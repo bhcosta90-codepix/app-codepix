@@ -12,7 +12,7 @@ abstract class TestCase extends BaseTestCase
     public function getBankLogin()
     {
         return Bank::factory([
-            'secret' => "4484cd7b070bd7a6fbeb1306adef31c004a98aff",
+            'secret' => "5066195abbff72cd7d1c6d863140f51ca8ee3df7",
         ])->create();
     }
 }

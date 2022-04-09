@@ -19,13 +19,13 @@ final class TransactionService
 
     public function newTransaction(Account $account = null, PixKey $pixKey = null, float $amount = null, string $description = null)
     {
-        $data = $this->validate([
+        $data = [
             'amount' => $amount,
             'description' => $description,
             'account_from_id' => $account->id,
             'pix_key_id' => $pixKey->id,
             'description' => $description,
-        ], Transaction::rulesCreated());
+        ];
 
         $ret = $this->repository->create($data);
         $ret->refresh();

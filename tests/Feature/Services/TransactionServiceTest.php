@@ -18,7 +18,7 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
 
         $this->assertDatabaseHas('transactions', [
             'amount' => 50,
@@ -35,8 +35,8 @@ class TransactionServiceTest extends TestCase
         $objAccount1 = Account::factory()->create();
         $objPix2 = PixKey::factory()->create();
 
-        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix2, 50, 'teste');
-        $this->service()->newTransaction($this->uuid(), $objAccount1, $objPix, 30, 'teste');
+        $this->service()->newTransaction($objAccount, $objPix2, 50, 'teste');
+        $this->service()->newTransaction($objAccount1, $objPix, 30, 'teste');
 
         $this->assertDatabaseHas('transactions', [
             'amount' => 50,
@@ -58,7 +58,7 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
 
         // $this->assertDatabaseHas('pubsub', [
         //     'routing' => 'new_transaction.' . $objAccount->bank->credential . '.confirmed',
@@ -79,14 +79,14 @@ class TransactionServiceTest extends TestCase
             'account_id' => $objAccount->id
         ])->create();
 
-        $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
     }
 
     public function test_confirmed_transaction_in_bank() {
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $transaction = $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
 
         DB::table('pubsub')->insert([
             'queue' => 'teste',
@@ -107,7 +107,7 @@ class TransactionServiceTest extends TestCase
         $objAccount = Account::factory()->create();
         $objPix = PixKey::factory()->create();
 
-        $transaction = $this->service()->newTransaction($this->uuid(), $objAccount, $objPix, 50, 'teste');
+        $transaction = $this->service()->newTransaction($objAccount, $objPix, 50, 'teste');
 
         DB::table('pubsub')->insert([
             'queue' => 'teste',

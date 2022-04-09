@@ -15,11 +15,11 @@ final class AccountService
 
     public function newAccount(Bank $bank, string $name = null, string $number = null)
     {
-        $data = $this->validate([
+        $data = [
             'name' => $name,
             'number' => $number,
             'bank_id' => $bank->id,
-        ], Account::rulesCreated());
+        ];
 
         return $this->repository->create($data);
     }

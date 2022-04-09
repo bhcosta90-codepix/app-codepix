@@ -15,6 +15,7 @@ class PixKeyControllerTest extends TestCase
     public function test_new_pixkey()
     {
         $bank = $this->getBankLogin();
+
         $account = Account::factory([
             'bank_id' => $bank->id,
         ])->create();
@@ -23,7 +24,7 @@ class PixKeyControllerTest extends TestCase
             'kind' => 'random',
             'key' => $key = (string) str()->uuid(),
         ], [
-            'Authorization' => "Bearer {$bank->credential}:4484cd7b070bd7a6fbeb1306adef31c004a98aff",
+            'Authorization' => "Bearer {$bank->credential}:5066195abbff72cd7d1c6d863140f51ca8ee3df7",
         ]);
 
         $this->assertDatabaseHas('pix_keys', [
