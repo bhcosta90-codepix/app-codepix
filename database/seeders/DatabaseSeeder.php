@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'uuid' => 'e2989ccf-eb1b-4766-a5f7-697af0236595',
             'kind' => 'random',
             'key' => 'cba4da01-a262-425c-a2d2-457319e8a666'
-        ]);
+        ])->create();
 
         $account = Account::factory([
             'uuid' => '58234d11-78f1-45c2-ad40-7c255390b818',
@@ -45,6 +45,6 @@ class DatabaseSeeder extends Seeder
             'uuid' => '064df7c3-c86e-4d05-a630-fb732698209e',
             'kind' => 'random',
             'key' => 'e0ab5f25-34a6-4c2d-89d7-a0f0ba52c0f0'
-        ]);
+        ])->create();
     }
 }

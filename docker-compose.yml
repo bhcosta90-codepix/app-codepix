@@ -63,6 +63,23 @@ services:
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+
+    rabbitmq:
+        image: rabbitmq:3.8-management-alpine
+        hostname: rabbitmq
+        ports:
+            - 15672:15672 #Interface
+            - 5672:5672 #Rabbitmq
+        volumes:
+            - ./vendor/_data/rabbitmq/data:/var/lib/rabbitmq/mnesia
+            - ./vendor/_data/rabbitmq/log/:/var/log/rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_VHOST=rabbitmq
+            - RABBITMQ_DEFAULT_USER=root
+            - RABBITMQ_DEFAULT_PASS=root
+        networks:
+            - sail
+
 networks:
     sail:
         driver: bridge
