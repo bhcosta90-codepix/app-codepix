@@ -4,6 +4,7 @@ namespace App\Console\Commands\Transaction;
 
 use App\Services\TransactionService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class TransactionApproved extends Command
 {
@@ -29,9 +30,12 @@ class TransactionApproved extends Command
     public function handle(TransactionService $transactionService)
     {
         app('pubsub')->consume('queue_transaction_approved', [
-            'confirm_transaction'
+            'transaction_approved'
         ], function ($data) use ($transactionService) {
-            $transactionService->transactionApprroved($data['external_id'] ?? $data['uuid']);
+            $obj = $transactionService->transactionApprroved($data['external_id']);
+
+            app('pubsub')->publish(['transaction.approved.' . $obj->account_from->bank->credential], ['internal_id' => $data['internal_id']]);
+            app('pubsub')->publish(['transaction.approved.' . $obj->pixKey->account->bank->credential], ['external_id' => $data['external_id']]);
         });
     }
 }

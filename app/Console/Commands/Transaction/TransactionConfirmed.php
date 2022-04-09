@@ -29,9 +29,13 @@ class TransactionConfirmed extends Command
     public function handle(TransactionService $transactionService)
     {
         app('pubsub')->consume('queue_transaction_confirmed', [
-            'confirm_transaction.ab25989f-9486-4863-b657-aa1f8732620f.confirmed'
+            'transaction.confirmed'
         ], function ($data) use ($transactionService) {
-            $transactionService->transactionConfirmed($data['external_id']);
+            $obj = $transactionService->transactionConfirmed($data['external_id']);
+
+            app('pubsub')->publish(['transaction.confirmed.' . $obj->account_from->bank->credential], [
+                'uuid' => $data['external_id']
+            ] + $data);
         });
     }
 }
