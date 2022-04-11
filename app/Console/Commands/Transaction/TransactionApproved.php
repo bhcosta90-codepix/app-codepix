@@ -34,8 +34,8 @@ class TransactionApproved extends Command
         ], function ($data) use ($transactionService) {
             $obj = $transactionService->transactionApprroved($data['external_id']);
 
-            app('pubsub')->publish(['transaction.approved.' . $obj->account_from->bank->credential], ['internal_id' => $data['internal_id']]);
-            app('pubsub')->publish(['transaction.approved.' . $obj->pixKey->account->bank->credential], ['external_id' => $data['external_id']]);
+            app('pubsub')->publish(['transaction.approved.' . $obj->account_from->bank->credential], ['uuid' => $data['internal_id']]);
+            app('pubsub')->publish(['transaction.approved.' . $obj->pixKey->account->bank->credential], ['uuid' => $data['external_id']]);
         });
     }
 }
