@@ -36,6 +36,7 @@ final class TransactionService
 
         app('pubsub')->publish(['new_transaction.' . $pixKey->account->bank->credential . '.created'], $data);
 
+
         return $ret;
     }
 
