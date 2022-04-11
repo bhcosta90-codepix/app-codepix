@@ -28,7 +28,7 @@ class TransactionConfirmed extends Command
      */
     public function handle(TransactionService $transactionService)
     {
-        app('pubsub')->consume('queue_transaction_confirmed', [
+        app('pubsub')->consume('queue_codepix_confirmed', [
             'transaction.confirmed'
         ], function ($data) use ($transactionService) {
             $obj = $transactionService->transactionConfirmed($data['external_id']);

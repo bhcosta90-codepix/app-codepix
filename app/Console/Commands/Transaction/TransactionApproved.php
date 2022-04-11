@@ -29,7 +29,7 @@ class TransactionApproved extends Command
      */
     public function handle(TransactionService $transactionService)
     {
-        app('pubsub')->consume('queue_transaction_approved', [
+        app('pubsub')->consume('queue_codepix_approved', [
             'transaction_approved'
         ], function ($data) use ($transactionService) {
             $obj = $transactionService->transactionApprroved($data['transaction_id']);
