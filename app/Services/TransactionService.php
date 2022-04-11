@@ -11,6 +11,7 @@ final class TransactionService
     const TRANSACTION_PENDING = 'pending';
     const TRANSACTION_CONFIRMED = 'confirmed';
     const TRANSACTION_APPROVED = 'approved';
+    const TRANSACTION_COMPLETED = 'completed';
 
     public function __construct(private Transaction $repository)
     {
@@ -53,6 +54,15 @@ final class TransactionService
     {
         $obj = $this->find($uuid);
         $obj->status = self::TRANSACTION_APPROVED;
+        $obj->save();
+
+        return $obj;
+    }
+
+    public function transactionCompleted(string $uuid)
+    {
+        $obj = $this->find($uuid);
+        $obj->status = self::TRANSACTION_COMPLETED;
         $obj->save();
 
         return $obj;
