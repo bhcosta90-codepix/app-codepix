@@ -32,7 +32,7 @@ class TransactionApproved extends Command
         app('pubsub')->consume('queue_transaction_approved', [
             'transaction_approved'
         ], function ($data) use ($transactionService) {
-            $obj = $transactionService->transactionApprroved($data['external_id']);
+            $obj = $transactionService->transactionApprroved($data['transaction_id']);
 
             app('pubsub')->publish(['transaction.approved.' . $obj->account_from->bank->credential], ['uuid' => $data['internal_id']]);
             app('pubsub')->publish(['transaction.approved.' . $obj->pixKey->account->bank->credential], ['uuid' => $data['external_id']]);
