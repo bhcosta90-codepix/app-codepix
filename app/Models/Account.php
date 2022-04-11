@@ -29,7 +29,7 @@ class Account extends Model
     {
         return [
             'name' => 'required|min:3|max:120',
-            'number' => 'required|min:3|max:150',
+            'number' => 'required|min:6|max:50',
             'bank_id' => 'required|exists:banks,id'
         ];
     }

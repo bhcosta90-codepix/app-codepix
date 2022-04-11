@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('number');
             $table->timestamps();
+
+            $table->unique(['bank_id', 'number']);
         });
     }
 

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\Bank;
 use App\Models\PixKey;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +24,7 @@ class DatabaseSeeder extends Seeder
 
         $account = Account::factory([
             'uuid' => 'a1629637-c5e9-4a83-bd07-454b6c0a1e6b',
+            'number' => str_pad('1', 6, '0', STR_PAD_LEFT),
             'bank_id' => $bank->id,
         ])->create();
 
@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
 
         $account = Account::factory([
             'uuid' => '58234d11-78f1-45c2-ad40-7c255390b818',
+            'number' => str_pad('2', 6, '0', STR_PAD_LEFT),
             'bank_id' => $bank->id,
         ])->create();
 
@@ -57,6 +58,7 @@ class DatabaseSeeder extends Seeder
         $account = Account::factory([
             'uuid' => '013903b5-a12c-4981-8fe0-60d37758b359',
             'bank_id' => $bank->id,
+            'number' => str_pad('1', 6, '0', STR_PAD_LEFT),
         ])->create();
 
         PixKey::factory([
@@ -69,6 +71,7 @@ class DatabaseSeeder extends Seeder
         $account = Account::factory([
             'uuid' => '50809e5f-22dc-41e7-b95e-25e764bae71a',
             'bank_id' => $bank->id,
+            'number' => str_pad('2', 6, '0', STR_PAD_LEFT),
         ])->create();
 
         PixKey::factory([
@@ -88,6 +91,7 @@ class DatabaseSeeder extends Seeder
         $account = Account::factory([
             'uuid' => 'f3db6eb0-0983-472e-911d-714b0b7d03db',
             'bank_id' => $bank->id,
+            'number' => str_pad('1', 6, '0', STR_PAD_LEFT),
         ])->create();
 
         PixKey::factory([
@@ -100,6 +104,7 @@ class DatabaseSeeder extends Seeder
         $account = Account::factory([
             'uuid' => 'becb8df8-d12c-49d1-ba29-acc2e66ba372',
             'bank_id' => $bank->id,
+            'number' => str_pad('2', 6, '0', STR_PAD_LEFT),
         ])->create();
 
         PixKey::factory([
