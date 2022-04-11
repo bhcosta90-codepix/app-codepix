@@ -14,7 +14,7 @@ class TransactionCompleted extends Command
      *
      * @var string
      */
-    protected $signature = 'transaction:approved';
+    protected $signature = 'transaction:completed';
 
     /**
      * The console command description.
