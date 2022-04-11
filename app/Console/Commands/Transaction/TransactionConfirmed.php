@@ -33,9 +33,12 @@ class TransactionConfirmed extends Command
         ], function ($data) use ($transactionService) {
             $obj = $transactionService->transactionConfirmed($data['external_id']);
 
-            app('pubsub')->publish(['transaction.confirmed.' . $obj->account_from->bank->credential], [
+            dump([$obj->account_from->bank->credential, $data['internal_id']]);
+            dump([$obj->pixKey->account->bank->credential, $data['external_id']]);
+
+            /*app('pubsub')->publish(['transaction.confirmed.' . $obj->account_from->bank->credential], [
                 'uuid' => $data['external_id']
-            ] + $data);
+            ] + $data);*/
         });
     }
 }
