@@ -63,6 +63,7 @@ final class TransactionService
     {
         $obj = $this->find($uuid);
         $obj->status = self::TRANSACTION_COMPLETED;
+        $obj->status = self::TRANSACTION_COMPLETED;
         $obj->save();
 
         return $obj;

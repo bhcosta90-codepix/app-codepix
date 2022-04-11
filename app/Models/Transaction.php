@@ -16,6 +16,7 @@ class Transaction extends Model
         'pix_key_id',
         'amount',
         'description',
+        'total_sync',
     ];
 
     public static function rulesCreated(): array|null
@@ -29,7 +30,8 @@ class Transaction extends Model
             'account_from_id' => 'required',
             'pix_key_id' => 'required',
             'amount' => 'required|min:0|numeric',
-            'description' => 'nullable|max:120'
+            'description' => 'nullable|max:120',
+            'total_sync' => 'nullable|numeric|min:0',
         ];
     }
 

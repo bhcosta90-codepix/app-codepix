@@ -37,12 +37,15 @@ class TransactionCompleted extends Command
             try {
                 $obj = $transactionService->transactionCompleted($data['transaction_id']);
                 $obj->increment('total_sync', 1);
+                $obj->save();
+
                 if ($obj->total_sync == 2) {
                     app('pubsub')->publish(['transaction.completed.' . $obj->account_from->bank->credential], ['uuid' => $data['external_id']] + $data);
                     app('pubsub')->publish(['transaction.completed.' . $obj->pixKey->account->bank->credential], ['uuid' => $data['internal_id']] + $data);
                 }
 
                 DB::commit();
+                sleep(1);
             } catch(Exception $e) {
                 DB::rollBack();
                 throw $e;

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('status')->default(TransactionService::TRANSACTION_PENDING);
             $table->string('description')->nullable();
             $table->string('cancel_description')->nullable();
+            $table->tinyInteger('total_sync')->default(0)->nullable();
             $table->timestamps();
         });
     }
